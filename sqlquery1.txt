@@ -1,0 +1,26 @@
+/*
+1.Find out the PG-13 rated comedy movies. DO NOT use the film_list table.
+2.Find out the top 3 rented horror movies.
+3.Find out the list of customers from India who have rented sports movies.
+4.Find out the list of customers from Canada who have rented “NICK WAHLBERG” movies.
+5.Find out the number of movies in which “SEAN WILLIAMS” acted.
+*/
+
+1)SELECT film.title FROM film JOIN film_category ON film.film_id = film_category.film_id JOIN category ON film_category.category_id = category.category_id WHERE film.rating='PG-13' AND category.name='Comedy';
+
+2)SELECT title from film JOIN inventory ON inventory.film_id = film.film_id JOIN rental ON inventory.inventory_id = rental.inventory_id JOIN film_category ON film.film_id = film_category.film_id JOIN category ON film_category.category_id = category.category_id WHERE category.name='Horror' group by title order by count(rental.inventory_id) desc limit 3;
+
+
+
+3)SELECT DISTINCT customer_list.name FROM customer_list JOIN rental ON customer_list.ID = rental.customer_id JOIN inventory ON rental.inventory_id = inventory.inventory_id JOIN film_category ON inventory.film_id = film_category.film_id JOIN category ON film_category.category_id = category.category_id WHERE customer_list.country='India' and category.name='Sports' ORDER BY customer_list.name;
+
+
+
+4)SELECT DISTINCT customer_list.name FROM customer_list JOIN rental ON customer_list.ID = rental.customer_id JOIN inventory ON rental.inventory_id = inventory.inventory_id JOIN film_actor ON inventory.film_id = film_actor.film_id JOIN actor on actor.actor_id = film_actor.actor_id WHERE customer_list.country='Canada' and actor.first_name='NICK' and actor.last_name='WAHLBERG';
+
+
+
+5)SELECT count(*) from film_actor JOIN actor on actor.actor_id = film_actor.actor_id WHERE actor.first_name='SEAN' and actor.last_name='WILLIAMS';
+
+
+
